@@ -21,14 +21,24 @@ public abstract class IPNetwork<N extends IPNetwork> implements Serializable {
         return (int) longMaskToShort(mask);
     }
 
-    /** return the next network after this one (with the same size) */
-    public N getNetworkAbove() throws NetworkException {
+    /** return the network after this one (with the same size) */
+    public N getNetworkAfter() throws NetworkException {
         int shortMask = longMaskToShort(mask);
         long add = 1;
         for (int i = 0; i < (BITS - shortMask); ++i) {
             add = add << 1;
         }
         return newNetwork(address.add(BigInteger.valueOf(add)), mask);
+    }
+    
+    /** return the network before this one (with the same size) */
+    public N getNetworkBefore() throws NetworkException {
+        int shortMask = longMaskToShort(mask);
+        long add = 1;
+        for (int i = 0; i < (BITS - shortMask); ++i) {
+            add = add << 1;
+        }
+        return newNetwork(address.subtract(BigInteger.valueOf(add)), mask);
     }
 
     /** return the network with the given mask which surrounds (contains, encloses) this network */
