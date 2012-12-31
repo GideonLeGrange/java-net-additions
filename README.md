@@ -13,3 +13,9 @@ Currently this includes working with networks (as opposed to InetAddress objects
 There is also a construct for working with IP access lists:
 * IP access lists can be constructed. 
 * IP access lists can be queried to see if a certain address mataches the list. 
+
+
+LICENSE
+=======
+xbee-gateway is released under the Apache 2.0 license except as otherwise noted.
+http://www.apache.org/licenses/LICENSE-2.0
