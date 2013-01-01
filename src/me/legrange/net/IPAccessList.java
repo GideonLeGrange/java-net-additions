@@ -10,17 +10,14 @@ public class IPAccessList implements java.io.Serializable {
     /** Create a new access list with the given default policy */
     public IPAccessList(boolean policy) {
         try {
-            v4 = new Node(IPv4Network.getByAddress("0.0.0.0", "0.0.0.0"), policy);
+            v4 = new Node(IPv4Network.getByAddress("0.0.0.0", 0), policy);
             v6 = new Node(IPv6Network.getByAddress("::", 0), policy);
         } catch (NetworkException e) {
+            throw new RuntimeException("poes", e);
         }
     }
 
     public void add(String network, int mask, boolean policy) throws NetworkException {
-        add(IPv4Network.getByAddress(network, mask), policy);
-    }
-
-    public void add(String network, String mask, boolean policy) throws NetworkException {
         add(IPv4Network.getByAddress(network, mask), policy);
     }
 

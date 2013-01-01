@@ -2,6 +2,7 @@ package me.legrange.net;
 
 import java.math.BigInteger;
 import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /** An IPv4 network */
@@ -18,14 +19,6 @@ public class IPv4Network extends IPNetwork<IPv4Network> {
         }
     }
 
-    public static IPv4Network getByAddress(String address, String mask) throws NetworkException {
-        try {
-            return getByAddress(address, Integer.parseInt(mask));
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidAddressException(String.format("%s is not a valid mask", mask));
-        }
-    }
 
     @Override
     protected IPv4Network newNetwork(BigInteger address, BigInteger mask) {
