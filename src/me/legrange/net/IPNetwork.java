@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 
 /** 
  * A representation of an IP network (v4 or v6) consisting of a network and mask on which 
- * useful operations can be done. 
+ * useful operations can be done.   
  * @author gideon
  */
 public abstract class IPNetwork<N extends IPNetwork> implements Serializable {
