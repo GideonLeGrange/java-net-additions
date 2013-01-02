@@ -5,8 +5,9 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-/**
- *
+/** 
+ * A representation of an IP network (v4 or v6) consisting of a network and mask on which 
+ * useful operations can be done. 
  * @author gideon
  */
 public abstract class IPNetwork<N extends IPNetwork> implements Serializable {
@@ -68,6 +69,15 @@ public abstract class IPNetwork<N extends IPNetwork> implements Serializable {
         return (net.mask.compareTo(mask) >= 0) && net.address.and(mask).equals(address);
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if ((o != null) && (o instanceof IPNetwork)) {
+            IPNetwork net = (IPNetwork)o;
+            return (net != null) && address.equals(net.address) && mask.equals(net.mask) && (BITS == net.BITS);
+        }
+        return false;
+        
+    }
        
     protected IPNetwork(BigInteger address, BigInteger mask, int bits) {
         this.BITS = bits;
@@ -114,7 +124,7 @@ public abstract class IPNetwork<N extends IPNetwork> implements Serializable {
         }
     }
     
-    private int BITS;
+    protected int BITS;
     protected BigInteger address;
     protected BigInteger mask;
     private static final long serialVersionUID = 2012123101;
