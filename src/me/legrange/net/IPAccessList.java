@@ -40,7 +40,7 @@ public class IPAccessList implements java.io.Serializable {
     private Node findPlace(IPNetwork net) throws NetworkException {
         if (net instanceof IPv4Network) {
             return findPlace(net, v4);
-        }
+        }   
         return findPlace(net, v6);
     }
 
