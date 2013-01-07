@@ -17,5 +17,5 @@ There is also a construct for working with IP access lists:
 
 LICENSE
 =======
-xbee-gateway is released under the Apache 2.0 license except as otherwise noted.
+java-net-additions is released under the Apache 2.0 license except as otherwise noted.
 http://www.apache.org/licenses/LICENSE-2.0
