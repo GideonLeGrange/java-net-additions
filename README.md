@@ -14,6 +14,8 @@ There is also a construct for working with IP access lists:
 * IP access lists can be constructed. 
 * IP access lists can be queried to see if a certain address mataches the list. 
 
+The library supports both IPv4 and IPv6 networks.
+
 
 LICENSE
 =======
