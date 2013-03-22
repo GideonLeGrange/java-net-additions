@@ -19,7 +19,6 @@ public class IPv6Network extends IPNetwork {
         }
     }
 
-
     @Override
     protected IPv6Network newNetwork(BigInteger address, BigInteger mask) {
         return new IPv6Network(address, mask);
@@ -28,7 +27,5 @@ public class IPv6Network extends IPNetwork {
     private IPv6Network(BigInteger address, BigInteger mask) {
         super(address, mask, 128);
     }
-
- 
 
 }

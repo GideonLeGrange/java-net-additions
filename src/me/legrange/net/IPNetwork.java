@@ -127,5 +127,5 @@ public abstract class IPNetwork<N extends IPNetwork> implements Serializable {
     protected int BITS;
     protected BigInteger address;
     protected BigInteger mask;
-    private static final long serialVersionUID = 2012123101;
+
 }

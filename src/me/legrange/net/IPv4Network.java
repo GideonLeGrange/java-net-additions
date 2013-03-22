@@ -2,7 +2,6 @@ package me.legrange.net;
 
 import java.math.BigInteger;
 import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /** An IPv4 network */
@@ -28,8 +27,5 @@ public class IPv4Network extends IPNetwork<IPv4Network> {
     private IPv4Network(BigInteger address, BigInteger mask) {
         super(address, mask, 32);
     }
-
- 
-
 
 }
