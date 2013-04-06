@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 /** 
  * A representation of an IP network (v4 or v6) consisting of a network and mask on which 
@@ -77,6 +78,15 @@ public abstract class IPNetwork<N extends IPNetwork> implements Serializable {
         }
         return false;
         
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + this.BITS;
+        hash = 79 * hash + Objects.hashCode(this.address);
+        hash = 79 * hash + Objects.hashCode(this.mask);
+        return hash;
     }
        
     protected IPNetwork(BigInteger address, BigInteger mask, int bits) {

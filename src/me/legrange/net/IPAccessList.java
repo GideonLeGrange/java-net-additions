@@ -112,7 +112,7 @@ public class IPAccessList implements java.io.Serializable {
         }
         private IPNetwork network;
         private boolean policy;
-        private List<Node> children = new ArrayList<Node>();
+        private List<Node> children = new ArrayList<>();
     }
     private Node v4;
     private Node v6;
