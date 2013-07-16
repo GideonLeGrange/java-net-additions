@@ -16,8 +16,3 @@ There is also a construct for working with IP access lists:
 
 The library supports both IPv4 and IPv6 networks.
 
-
-LICENSE
-=======
-java-net-additions is released under the Apache 2.0 license except as otherwise noted.
-http://www.apache.org/licenses/LICENSE-2.0
