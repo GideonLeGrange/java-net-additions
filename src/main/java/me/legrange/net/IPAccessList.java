@@ -18,22 +18,23 @@ public class IPAccessList implements java.io.Serializable {
         v6 = new Node(IPv6Network.getByAddress("::", 0), policy);
     }
 
-    public void add(String network, int mask, boolean policy) throws NetworkException {
+    public void addV4(String network, int mask, boolean policy) throws NetworkException {
         add(IPv4Network.getByAddress(network, mask), policy);
     }
 
-    public void add(IPv4Network network, boolean policy) throws NetworkException {
+   
+    public void add(IPNetwork network, boolean policy) throws NetworkException {
         Node place = findPlace(network);
         if (place.getPolicy() != policy) {
             place.addChild(new Node(network, policy));
         }
     }
 
-    public boolean checkAccess(IPv4Network net) throws NetworkException {
+    public boolean checkAccess(IPNetwork net) throws NetworkException {
         return findPlace(net).getPolicy();
     }
 
-    public boolean checkAccess(String ip) throws NetworkException {
+    public boolean checkV4Access(String ip) throws NetworkException {
         return checkAccess(IPv4Network.getByAddress(ip, 32));
     }
 
