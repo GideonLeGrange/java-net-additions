@@ -7,4 +7,10 @@ public class InvalidAddressException extends NetworkException {
         super(msg);
     }
 
+    public InvalidAddressException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+    
+    
+
 }
