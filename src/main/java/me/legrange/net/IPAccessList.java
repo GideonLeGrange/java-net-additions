@@ -7,6 +7,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is an network access list tree that can contain permit and deny
@@ -16,6 +18,8 @@ public class IPAccessList implements java.io.Serializable {
 
     /**
      * Create a new access list with the given default policy
+     *
+     * @param policy
      */
     public IPAccessList(boolean policy) {
         v4 = new Node(IPv4Network.ALL, policy);
@@ -23,12 +27,11 @@ public class IPAccessList implements java.io.Serializable {
     }
 
     public void add(String network, int mask, boolean policy) throws NetworkException {
-        try {  
+        try {
             InetAddress addr = InetAddress.getByName(network);
             if (addr instanceof Inet4Address) {
                 add(IPv4Network.getByAddress(network, mask), policy);
-            }
-            else if (addr instanceof Inet6Address) {
+            } else if (addr instanceof Inet6Address) {
                 add(IPv6Network.getByAddress(network, mask), policy);
             }
         } catch (UnknownHostException ex) {
@@ -45,6 +48,14 @@ public class IPAccessList implements java.io.Serializable {
 
     public boolean checkAccess(IPNetwork net) throws NetworkException {
         return findPlace(net).getPolicy();
+    }
+
+    public boolean checkAccess(String ip) throws InvalidAddressException {
+        try {
+            return checkAccess(InetAddress.getByName(ip));
+        } catch (UnknownHostException ex) {
+            throw new InvalidAddressException(ex.getMessage(), ex);
+        }
     }
 
     public boolean checkAccess(InetAddress addr) throws InvalidAddressException {
