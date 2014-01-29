@@ -7,6 +7,9 @@ import java.net.UnknownHostException;
 /** An IPv4 network */
 public class IPv4Network extends IPNetwork<IPv4Network> {
 
+    public static final IPv4Network ALL = new IPv4Network(BigInteger.valueOf(0),  BigInteger.valueOf(0));
+
+
     public static IPv4Network getByAddress(String address, int mask) throws NetworkException {
         if ((mask < 0) || (mask > 32)) {
             throw new InvalidAddressException(String.format("'%d' is not a valid IPv4 mask.", mask));

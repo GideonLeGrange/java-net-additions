@@ -7,7 +7,8 @@ import java.net.UnknownHostException;
 /** An IPv6 network */
 public class IPv6Network extends IPNetwork {
 
-    
+      public static final IPv6Network ALL = new IPv6Network(BigInteger.valueOf(0),  BigInteger.valueOf(0));
+  
     public static IPv6Network getByAddress(String address, int mask) throws NetworkException {
         if ((mask < 0) || (mask > 128)) {
             throw new InvalidAddressException(String.format("'%d' is not a valid IPv6 mask.", mask));
