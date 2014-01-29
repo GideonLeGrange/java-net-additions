@@ -1,5 +1,9 @@
 package me.legrange.net;
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,22 +23,53 @@ public class IPAccessList implements java.io.Serializable {
     }
 
     public void add(String network, int mask, boolean policy) throws NetworkException {
-        add(IPv4Network.getByAddress(network, mask), policy);
+        try {  
+            InetAddress addr = InetAddress.getByName(network);
+            if (addr instanceof Inet4Address) {
+                add(IPv4Network.getByAddress(network, mask), policy);
+            }
+            else if (addr instanceof Inet6Address) {
+                add(IPv6Network.getByAddress(network, mask), policy);
+            }
+        } catch (UnknownHostException ex) {
+            throw new InvalidAddressException(ex.getMessage(), ex);
+        }
     }
 
-    public void add(IPv4Network network, boolean policy) throws NetworkException {
+    public void add(IPNetwork network, boolean policy) throws NetworkException {
         Node place = findPlace(network);
         if (place.getPolicy() != policy) {
             place.addChild(new Node(network, policy));
         }
     }
 
-    public boolean checkAccess(IPv4Network net) throws NetworkException {
+    public boolean checkAccess(IPNetwork net) throws NetworkException {
         return findPlace(net).getPolicy();
     }
 
-    public boolean checkAccess(String ip) throws NetworkException {
+    public boolean checkAccess(InetAddress addr) throws InvalidAddressException {
+        if (addr instanceof Inet4Address) {
+            try {
+                return checkV4Access(addr.getHostAddress());
+            } catch (NetworkException ex) {
+                throw new InvalidAddressException(ex.getMessage(), ex);
+            }
+        } else if (addr instanceof Inet6Address) {
+            try {
+                return checkV6Access(addr.getHostAddress());
+            } catch (NetworkException ex) {
+                throw new InvalidAddressException(ex.getMessage(), ex);
+            }
+        }
+        return false;
+    }
+
+    private boolean checkV4Access(String ip) throws NetworkException {
         return checkAccess(IPv4Network.getByAddress(ip, 32));
+    }
+
+    private boolean checkV6Access(String ip) throws NetworkException {
+        return checkAccess(IPv6Network.getByAddress(ip, 128));
     }
 
     /**
