@@ -7,8 +7,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class is an network access list tree that can contain permit and deny
@@ -30,9 +28,9 @@ public class IPAccessList implements java.io.Serializable {
         try {
             InetAddress addr = InetAddress.getByName(network);
             if (addr instanceof Inet4Address) {
-                add(IPv4Network.getByAddress(network, mask), policy);
+                add(IPv4Network.getNetwork(network, mask), policy);
             } else if (addr instanceof Inet6Address) {
-                add(IPv6Network.getByAddress(network, mask), policy);
+                add(IPv6Network.getNetwork(network, mask), policy);
             }
         } catch (UnknownHostException ex) {
             throw new InvalidAddressException(ex.getMessage(), ex);
@@ -76,11 +74,11 @@ public class IPAccessList implements java.io.Serializable {
     }
 
     private boolean checkV4Access(String ip) throws NetworkException {
-        return checkAccess(IPv4Network.getByAddress(ip, 32));
+        return checkAccess(IPv4Network.getNetwork(ip, 32));
     }
 
     private boolean checkV6Access(String ip) throws NetworkException {
-        return checkAccess(IPv6Network.getByAddress(ip, 128));
+        return checkAccess(IPv6Network.getNetwork(ip, 128));
     }
 
     /**
@@ -99,7 +97,7 @@ public class IPAccessList implements java.io.Serializable {
      */
     private Node findPlace(IPNetwork network, Node root) throws NetworkException {
         for (Node child : root.getChildren()) {
-            if (child.getNetwork().containsAddress(network.getAddress())) {
+            if (child.getNetwork().contains(network)) {
                 return findPlace(network, child);
             }
         }
@@ -150,16 +148,18 @@ public class IPAccessList implements java.io.Serializable {
                 if (have == child) {
                     continue;
                 }
-                if (child.getNetwork().containsAddress(have.getNetwork().getAddress())) {
+                if (child.getNetwork().contains(have.getNetwork())) {
                     it.remove();
                     child.addChild(have);
                 }
             }
         }
-        private IPNetwork network;
-        private boolean policy;
-        private List<Node> children = new ArrayList<>();
+        
+        private final IPNetwork network;
+        private final boolean policy;
+        private final List<Node> children = new ArrayList<>();
     }
-    private Node v4;
-    private Node v6;
+    
+    private final Node v4;
+    private final Node v6;
 }
